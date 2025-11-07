@@ -1,15 +1,17 @@
 import _jobs from '../jobs.json';
+import { useState } from 'react';
 
-const JobListing = () => {
+const JobListing = ({job}) => {
+  const [showFullDescription, setShowFullDescription]=useState(false);
+
+  let description = job.description;
+
+  if(!showFullDescription && description.length > 90){
+    description = description.substring(0,90) + '...';
+  }
+
   return (
-    <section className="bg-blue-50 px-4 py-10">
-      <div className="container-xl lg:container m-auto">
-        <h2 className="text-3xl font-bold text-indigo-500 mb-6 text-center">
-          Browse Jobs
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {_jobs.jobs.map(job=>(
-          <div key={job.id} className="bg-white rounded-xl shadow-md relative">
+    <div className="bg-white rounded-xl shadow-md relative">
             <div className="p-4">
               <div className="mb-6">
                 <div className="text-gray-600 my-2">{job.type}</div>
@@ -17,10 +19,10 @@ const JobListing = () => {
               </div>
 
               <div className="mb-5">
-               {job.description}
+               {description}
               </div>
-
-              <h3 className="text-indigo-500 mb-2">{job.salary}</h3>
+              <button onClick={()=>setShowFullDescription(prevState=>!prevState)} className='text-indigo-500 mb-5 hover:text-indigo-600' >{showFullDescription ? 'Less':'More'}</button>
+              <h3 className="text-indigo-500 mb-2">{`${job.salary} / Year`}</h3>
 
               <div className="border border-gray-100 mb-5"></div>
 
@@ -30,7 +32,7 @@ const JobListing = () => {
                   {job.location}
                 </div>
                 <a
-                  href="job.html"
+                  href={`/job/${job.id}`}
                   className="h-9 bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg text-center text-sm"
                 >
                  Read More
@@ -38,10 +40,6 @@ const JobListing = () => {
               </div>
             </div>
           </div>
-          ))}
-        </div>
-      </div>
-    </section>
   )
 }
 
