@@ -8,7 +8,7 @@ const HomePage = () => {
         <>
             <Hero />
             <HomeCards />
-            <JobListings widget="true" />
+            <JobListings widget={true} />
             <ViewAllJobs />
         </>
     )
